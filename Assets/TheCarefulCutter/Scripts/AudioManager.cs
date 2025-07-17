@@ -10,17 +10,17 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Clips")]
     public AudioClip chopSound;
-    public AudioClip failSound; //  Added
+    public AudioClip failSound; 
     public AudioClip backgroundMusic;
     public AudioClip finishChopSound;
 
     private void Awake()
     {
-        // Singleton pattern
+        
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
             sfxSource.PlayOneShot(chopSound);
     }
 
-    public void PlayFail() //  Added
+    public void PlayFail() 
     {
         if (failSound != null)
             sfxSource.PlayOneShot(failSound);

@@ -3,8 +3,8 @@ using UnityEngine;
 public class VegetableManager : MonoBehaviour
 {
     public VegetableData[] vegetables;
-    public Transform spawnPoint; // Used for whole veggie spawn
-    public Transform[] chopSpawnPoints; // Set in Inspector — 8 locations for chopped veggies
+    public Transform spawnPoint; 
+    public Transform[] chopSpawnPoints; 
 
     private GameObject currentVegetableObj;
     private VegetableData currentData;
@@ -32,7 +32,7 @@ public class VegetableManager : MonoBehaviour
     {
         Destroy(currentVegetableObj);
 
-        // Pick random spawn point for chopped prefab
+        
         int randomIndex = Random.Range(0, chopSpawnPoints.Length);
         Transform randomSpawn = chopSpawnPoints[randomIndex];
 
