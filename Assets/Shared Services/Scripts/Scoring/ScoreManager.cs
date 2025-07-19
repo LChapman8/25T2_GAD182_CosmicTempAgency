@@ -16,6 +16,9 @@ public class ScoreManager : MonoBehaviour
     public Action<int> OnScoreChanged;
     public Action<int> OnMistakeMade;
 
+    public MinigameID currentMinigame; // Set to correct ID for current minigame. IDs located in MinigameID.cs.
+    public PlayerScoreData sessionData = new();
+
     private void Awake()
     {
         // Singleton setup for easy access
@@ -73,5 +76,14 @@ public class ScoreManager : MonoBehaviour
             baseScore = 0; // If player failed, set score to 0
 
         return (baseScore, GetFinalGrade());
+    }
+
+
+    // Call this at end of minigame.
+    public void FinaliseGame()
+    {
+        var (finalScore, finalGrade) = EndGame();
+        sessionData.SetScore(currentMinigame, finalScore, finalGrade);
+        ScoreSaveManager.SaveBestScore(currentMinigame, finalScore, finalGrade);
     }
 }
