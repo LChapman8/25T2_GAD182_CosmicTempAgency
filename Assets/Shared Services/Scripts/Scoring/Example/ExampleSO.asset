@@ -12,4 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e11f89ac930e944aa5203b0006e770, type: 3}
   m_Name: ExampleSO
   m_EditorClassIdentifier: 
-  gradeThresholds: []
+  gradeThresholds:
+  - grade: A
+    minScore: 1000
+    maxMistakes: 0
+  - grade: B
+    minScore: 800
+    maxMistakes: 2
+  - grade: C
+    minScore: 500
+    maxMistakes: 2
+  - grade: D
+    minScore: 200
+    maxMistakes: 4
+  - grade: F
+    minScore: 0
+    maxMistakes: 5
