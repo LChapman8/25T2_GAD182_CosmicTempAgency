@@ -13,6 +13,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip failSound; 
     public AudioClip backgroundMusic;
     public AudioClip finishChopSound;
+    public AudioClip timeoutSound;
+
 
     private void Awake()
     {
@@ -65,5 +67,12 @@ public class AudioManager : MonoBehaviour
         if (finishChopSound != null)
             sfxSource.PlayOneShot(finishChopSound);
     }
+
+    public void PlayTimeout()
+    {
+        if (timeoutSound != null)
+            sfxSource.PlayOneShot(timeoutSound);
+    }
+
 
 }

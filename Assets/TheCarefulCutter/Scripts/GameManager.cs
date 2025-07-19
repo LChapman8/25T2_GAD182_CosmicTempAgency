@@ -21,6 +21,6 @@ public class GameManager : MonoBehaviour
     public void GameOver(bool win)
     {
         gameOverPanel.SetActive(true);
-        resultText.text = win ? "You Win!" : "You Injured Yourself!";
+        resultText.text = win ? "You Win!" : "You Cut Yourself and bled on the food! You're Fired!";
     }
 }

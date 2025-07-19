@@ -23,8 +23,9 @@ public class GameTimer : MonoBehaviour
         {
             currentTime = 0;
             isRunning = false;
+            AudioManager.Instance.PlayTimeout();
 
-            
+
             FindObjectOfType<GameManager>().GameOver(false);
         }
 

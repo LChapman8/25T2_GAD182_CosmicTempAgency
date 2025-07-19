@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -35,4 +36,22 @@ public class UIManager : MonoBehaviour
 
         chopManager.enabled = false;
     }
+
+    public void ReturnToMainMenu()
+    {
+        
+        GameObject music = GameObject.FindWithTag("Music");
+        if (music != null)
+        {
+            Destroy(music);
+        }
+
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        
+        SceneManager.LoadScene("MainMenu"); // Replace with your actual menu scene name
+    }
+
 }
