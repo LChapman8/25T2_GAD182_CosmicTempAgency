@@ -71,11 +71,16 @@ public class ScoreManager : MonoBehaviour
     public (int finalScore, string finalGrade) EndGame()
     {
         gameEnded = true;
+        string grade = gradingProfile.GetGrade(baseScore, mistakeCount);
 
-        if (GetFinalGrade() == "F")
-            baseScore = 0; // If player failed, set score to 0
+        if (grade == "F")
+        {
+            return (0, grade); // If player failed, set score to 0
+        }
 
-        return (baseScore, GetFinalGrade());
+        float multiplier = gradingProfile.GetMultiplier(grade);
+        int finalScore = Mathf.RoundToInt(baseScore * multiplier);
+        return (finalScore, grade);
     }
 
 
