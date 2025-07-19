@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     public GameObject scoreCardPanel;
     public TextMeshProUGUI baseScoreText;
     public TextMeshProUGUI gradeText;
+    public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI highScoreText;
     public GameObject lostStamp;
 
@@ -78,32 +79,39 @@ public class UIController : MonoBehaviour
         isGameActive = false;
         StopAllCoroutines();
 
-        var (finalScore, finalGrade) = ScoreManager.Instance.EndGame();
-        MinigameID id = ScoreManager.Instance.currentMinigame;
+        string grade = ScoreManager.Instance.GetFinalGrade();
+        int baseScore = ScoreManager.Instance.GetBaseScore();
+        float multiplier = ScoreManager.Instance.gradingProfile.GetMultiplier(grade);
+        int finalScore = grade == "F" ? 0 : Mathf.RoundToInt(baseScore * multiplier);
 
+        MinigameID id = ScoreManager.Instance.currentMinigame;
         int best = ScoreSaveManager.GetBestScore(id);
         string bestGrade = ScoreSaveManager.GetBestGrade(id);
 
         scoreCardPanel.SetActive(true);
-        StartCoroutine(AnimateScoreCard(finalScore, finalGrade, best, bestGrade));
+        StartCoroutine(AnimateScoreCard(baseScore, grade, finalScore, best, bestGrade));
     }
 
-    private IEnumerator AnimateScoreCard(int finalScore, string finalGrade, int bestScore, string bestGrade)
+    private IEnumerator AnimateScoreCard(int baseScore, string grade, int finalScore, int bestScore, string bestGrade)
     {
-        baseScoreText.text = $"Base Score: {finalScore}";
+        baseScoreText.text = $"Base Score: {baseScore}";
         yield return new WaitForSeconds(1f);
 
-        gradeText.text = $"Grade: {finalGrade}";
+        gradeText.text = $"Grade: {grade}";
+        yield return new WaitForSeconds(1f);
+
+        finalScoreText.text = $"Final Score: {finalScore}";
         yield return new WaitForSeconds(1f);
 
         highScoreText.text = $"High Score: {bestScore} ({bestGrade})";
         yield return new WaitForSeconds(1f);
 
-        if (finalGrade == "F")
+        if (grade == "F")
         {
             lostStamp.SetActive(true);
         }
     }
+
 
     private void OnDisable()
     {

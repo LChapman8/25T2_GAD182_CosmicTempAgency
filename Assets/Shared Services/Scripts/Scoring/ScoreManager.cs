@@ -91,4 +91,7 @@ public class ScoreManager : MonoBehaviour
         sessionData.SetScore(currentMinigame, finalScore, finalGrade);
         ScoreSaveManager.SaveBestScore(currentMinigame, finalScore, finalGrade);
     }
+
+    // Accessor for UI system.
+    public int GetBaseScore() => baseScore;
 }
