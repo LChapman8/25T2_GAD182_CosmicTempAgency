@@ -2462,6 +2462,7 @@ MonoBehaviour:
   endScreen: {fileID: 893310837}
   endTimeText: {fileID: 0}
   caughtFruitText: {fileID: 1757687722}
+  winningCaughtFruitText: {fileID: 2142906464}
 --- !u!4 &2100123054
 Transform:
   m_ObjectHideFlags: 0
