@@ -6,7 +6,7 @@ using UnityEngine;
 public class TimerScript : MonoBehaviour
 {
 
-    [SerializeField] TextMeshProUGUI timerText; //setting the textmeshprougui variable
+    public TextMeshProUGUI timerText; //setting the textmeshprougui variable
     [SerializeField] TextMeshProUGUI timerTextEnd; //setting the textmeshprougui variable
     [SerializeField] TextMeshProUGUI timerTextWin; //setting the textmeshprougui variable
     public float timeLeft;
@@ -30,9 +30,18 @@ public class TimerScript : MonoBehaviour
             int seconds = Mathf.FloorToInt(restrainedTime % 60); // sets a variable for the time to be calculated into seconds
             string timeInMinuteFormat = string.Format("{0:00}:{1:00}", minutes, seconds); // using propper string formatting, this formats the time into minutes with seconds for the TextMeshPro UI
 
-            timerText.text = timeInMinuteFormat;
-            timerTextEnd.text = timeInMinuteFormat;
-            timerTextWin.text = timeInMinuteFormat;
+            timerText.text = "Timer : " + timeInMinuteFormat;
+
+            if (timerTextEnd != null)
+            {
+                timerTextEnd.text = "End Time: " + timeInMinuteFormat;
+            }
+
+            if (timerTextWin != null)
+            {
+                timerTextWin.text = "Winning Time : " + timeInMinuteFormat;
+
+            }
 
             if (timeLeft <= 0f)
             {

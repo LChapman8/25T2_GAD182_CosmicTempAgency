@@ -6,14 +6,16 @@ public class FruitSpawner : MonoBehaviour
 {
 
     [SerializeField] GameObject[] fruitPrefab;
+    Coroutine fruitSpawnerCoroutine;
     [SerializeField] float secondsBetweenSpawn = 1.2f, minSpawnArea, maxSpawnArea;//setting the variables for seconds between fruit spawning and the area range.
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(FruitSpawn());
+        fruitSpawnerCoroutine = StartCoroutine(FruitSpawn());
+        
     }
 
-    IEnumerator FruitSpawn()
+    public IEnumerator FruitSpawn()
     {
         while (true)//an infinite loop unless broken
         {
@@ -22,7 +24,7 @@ public class FruitSpawner : MonoBehaviour
             GameObject gameObject = Instantiate(fruitPrefab[Random.Range(0, fruitPrefab.Length)], position, Quaternion.identity);//Instantiate a fruit from the list at the randomly created position.
             yield return new WaitForSeconds(secondsBetweenSpawn);//wait for the secondsBetweenSpawn variable before restarting the loop
             Destroy(gameObject, 5f);//destroys the t object after 5 seconds.
-        
+            
         
         }
     
@@ -31,5 +33,12 @@ public class FruitSpawner : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void StopSpawningFruit()
+    { 
+    
+        StopCoroutine(fruitSpawnerCoroutine);
+    
     }
 }

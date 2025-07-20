@@ -7,6 +7,7 @@ public class SoundByteScript : MonoBehaviour
 
     public AudioSource audioSource;
     public AudioClip pointSoundClip;
+    public AudioClip lossPointSoundClip;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,14 @@ public class SoundByteScript : MonoBehaviour
     {
         Debug.Log("Play BasketFruitSound Clip");
         audioSource.clip = pointSoundClip;
+        audioSource.Play();
+
+    }
+
+    public void LossPointSoundClip()
+    {
+        Debug.Log("Play FloorFruitSound Clip");
+        audioSource.clip = lossPointSoundClip;
         audioSource.Play();
 
     }
