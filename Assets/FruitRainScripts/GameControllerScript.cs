@@ -26,6 +26,7 @@ public class GameControllerScript : MonoBehaviour
 
     public TextMeshProUGUI endTimeText;
     public TextMeshProUGUI caughtFruitText;
+    public TextMeshProUGUI winningCaughtFruitText;
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +72,7 @@ public class GameControllerScript : MonoBehaviour
     {
         StopGameFunctions();
         winScreen.SetActive(true);
-        caughtFruitText.text = "Caught Fruit: " + fruitCaughtTrackerScript.fruitCaught;
+        winningCaughtFruitText.text = "Caught Fruit: " + fruitCaughtTrackerScript.fruitCaught;
     }
 
     public void StopGameFunctions()
