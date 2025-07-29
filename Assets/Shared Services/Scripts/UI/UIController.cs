@@ -5,10 +5,22 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
-    [Header("Live Game UI")]
+    [Header("Timer UI")]
     public TextMeshProUGUI timeText;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI mistakeText;
+
+    [Header("Score UI")]
+    public TextMeshProUGUI scoreLabel;
+    public TextMeshProUGUI scoreValue;
+
+    [Header("Mistakes Made UI")]
+    public GameObject mistakesMadeGroup; // parent group to toggle
+    public TextMeshProUGUI mistakesMadeLabel;
+    public TextMeshProUGUI mistakesMadeValue;
+
+    [Header("Mistakes Left UI")]
+    public GameObject mistakesLeftGroup; // parent group to toggle
+    public TextMeshProUGUI mistakesLeftLabel;
+    public TextMeshProUGUI mistakesLeftValue;
 
     [Header("Final Scorecard UI")]
     public GameObject scoreCardPanel;
@@ -23,16 +35,21 @@ public class UIController : MonoBehaviour
     private float remainingTime;
     private bool isGameActive = false;
 
-    public void InitUI(float minigameTime, bool hasLimit, int limit)
+    public void InitUI(float minigameTime, bool limitMistakes, int maxMistakes)
     {
         remainingTime = minigameTime;
-        hasMistakeLimit = hasLimit;
-        mistakeLimit = limit;
+        hasMistakeLimit = limitMistakes;
+        mistakeLimit = maxMistakes;
         isGameActive = true;
 
         scoreCardPanel.SetActive(false);
         lostStamp.SetActive(false);
 
+        // Toggle mistake display type
+        mistakesMadeGroup.SetActive(!hasMistakeLimit);
+        mistakesLeftGroup.SetActive(hasMistakeLimit);
+
+        // Initialize values
         UpdateMistakeDisplay(0);
         UpdateScoreDisplay(0);
 
@@ -44,26 +61,32 @@ public class UIController : MonoBehaviour
 
     private void UpdateScoreDisplay(int newScore)
     {
-        scoreText.text = $"Score: {newScore}";
+        scoreLabel.text = "Score:";
+        scoreValue.text = newScore.ToString();
     }
 
-    private void UpdateMistakeDisplay(int mistakes)
+    private void UpdateMistakeDisplay(int currentMistakes)
     {
         if (hasMistakeLimit)
         {
-            mistakeText.text = $"Strikes Left: {mistakeLimit - mistakes}";
+            mistakesLeftLabel.text = "Strikes Left:";
+            mistakesLeftValue.text = Mathf.Max(0, mistakeLimit - currentMistakes).ToString();
         }
         else
         {
-            mistakeText.text = $"Mistakes: {mistakes}";
+            mistakesMadeLabel.text = "Mistakes:";
+            mistakesMadeValue.text = currentMistakes.ToString();
         }
     }
 
     private IEnumerator UpdateTimer()
     {
-        while (isGameActive && remainingTime > 0)
+        while (isGameActive && remainingTime > 0f)
         {
-            timeText.text = $"Time Left: {Mathf.CeilToInt(remainingTime)}s";
+            int minutes = Mathf.FloorToInt(remainingTime / 60f);
+            int seconds = Mathf.FloorToInt(remainingTime % 60f);
+            timeText.text = $"{minutes}:{seconds:00}";
+
             yield return null;
             remainingTime -= Time.deltaTime;
         }
@@ -111,7 +134,6 @@ public class UIController : MonoBehaviour
             lostStamp.SetActive(true);
         }
     }
-
 
     private void OnDisable()
     {
