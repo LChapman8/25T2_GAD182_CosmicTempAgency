@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PestMovementScript : MonoBehaviour
 {
+    public PestHealthScript pestHealthScript;
+
     public BoxCollider movementBounds;
     [SerializeField] float speed, secondsBetweenMovements;
     [SerializeField] float minMovementAreaZ, maxMovementAreaZ; //setting the variables for movement area range
@@ -11,6 +13,8 @@ public class PestMovementScript : MonoBehaviour
     private Vector3 movementPosition;
     private float movementRandomRangeZ;
     private float movementRandomRangeX;
+
+    public bool alive = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,13 +49,24 @@ public class PestMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, movementPosition, speed * Time.deltaTime);//moves towards the random position at a set speed within the inspector.
+        if (pestHealthScript.dead == true && alive == true)
+        {
 
-        Bounds bounds = movementBounds.bounds;
-        Vector3 clampedPosition = transform.position;
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, bounds.min.x, bounds.max.x);
-        clampedPosition.z = Mathf.Clamp(clampedPosition.z, bounds.min.z, bounds.max.z);
-        transform.position = clampedPosition;
+            alive = false;
 
+            Debug.Log("Pest deaded.");
+        
+        }
+
+        if (alive)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, movementPosition, speed * Time.deltaTime);//moves towards the random position at a set speed within the inspector.
+
+            Bounds bounds = movementBounds.bounds;
+            Vector3 clampedPosition = transform.position;
+            clampedPosition.x = Mathf.Clamp(clampedPosition.x, bounds.min.x, bounds.max.x);
+            clampedPosition.z = Mathf.Clamp(clampedPosition.z, bounds.min.z, bounds.max.z);
+            transform.position = clampedPosition;
+        }
     }
 }

@@ -30,6 +30,7 @@ public class SwatterSprayHitboxcript : MonoBehaviour
 
             Debug.Log("Should deal damage to pest.");
             //play dealt damage sound effect
+            
 
         }
 
