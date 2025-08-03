@@ -4,26 +4,27 @@ public class AudioManagerStrongman : MonoBehaviour
 {
     public static AudioManagerStrongman Instance;
 
+    [Header("Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
 
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
-    public void PlayMusic(AudioClip clip, bool loop = true)
+    public void PlayMusic(AudioClip clip)
     {
         musicSource.clip = clip;
-        musicSource.loop = loop;
+        musicSource.loop = true;
         musicSource.Play();
     }
 
@@ -34,6 +35,7 @@ public class AudioManagerStrongman : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        sfxSource.PlayOneShot(clip);
+        if (clip != null)
+            sfxSource.PlayOneShot(clip);
     }
 }
