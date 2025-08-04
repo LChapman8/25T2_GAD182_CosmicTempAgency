@@ -8,35 +8,46 @@ public class SwatterSprayScript : MonoBehaviour
 
     public SprayAnimationScript sprayAnimationScript;
 
+    public SprayCooldownUIScript sprayCooldownUIScript;
+
     public GameObject sprayHitBox;
     public Transform sprayHitBoxLocation;
     public Transform sprayExitLocation;
+
+    public float nextSprayTime = 0f;
+    public float sprayCooldown = 0.4f;
+
 
     public GameObject sprayEffect;
     // Start is called before the first frame update
     void Start()
     {
-        
+        sprayCooldownUIScript.SetMaxCooldown(sprayCooldown);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        sprayCooldownUIScript.SetCurrentCooldown(nextSprayTime - Time.time);
+            
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Time.time >= nextSprayTime)   
         {
 
-            SprayHitboxSpawn();
+                SprayHitboxSpawn();
+                nextSprayTime = Time.time + sprayCooldown;
 
-
+                
+            
         }
+       
     }
 
     public void SprayHitboxSpawn()
     {
         //instantiate spray hitbox
-
+        
         var currentSprayHitbox = Instantiate(sprayHitBox, sprayHitBoxLocation.position, Quaternion.identity);
-        Destroy(currentSprayHitbox, 0.5f);
+        Destroy(currentSprayHitbox, 0.2f);
 
         //play spray sound effect
         spraySoundScript.PlaySpraySound();

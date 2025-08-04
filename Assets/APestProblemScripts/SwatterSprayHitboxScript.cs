@@ -5,6 +5,7 @@ using UnityEngine;
 public class SwatterSprayHitboxcript : MonoBehaviour
 {
     public PestHealthScript pestHealthScript;
+    public int damageAmount;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class SwatterSprayHitboxcript : MonoBehaviour
         { 
         
             pestHealthScript = collider.gameObject.GetComponent<PestHealthScript>();
-            pestHealthScript.health -= 1;
+            pestHealthScript.TakeDamage(damageAmount);
         
 
             Debug.Log("Should deal damage to pest.");
