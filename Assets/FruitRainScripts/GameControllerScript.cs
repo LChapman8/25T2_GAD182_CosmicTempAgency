@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameControllerScript : MonoBehaviour
 {
+
     public FruitCaughtTracker fruitCaughtTrackerScript;
     public GameObject fruitTrackerObject;
 
@@ -14,6 +15,7 @@ public class GameControllerScript : MonoBehaviour
 
     public TimerScript timerScript;
     public GameObject timerObject;
+    public TimerSoundScript timerSoundScript;
 
     public SoundByteScript soundByteScript;
     public GameObject soundByteObject;
@@ -27,6 +29,13 @@ public class GameControllerScript : MonoBehaviour
     public TextMeshProUGUI endTimeText;
     public TextMeshProUGUI caughtFruitText;
     public TextMeshProUGUI winningCaughtFruitText;
+    public TextMeshProUGUI winningLostFruitText;
+    public TextMeshProUGUI endLostFruitText;
+
+    public float totalScore;
+
+    public TextMeshProUGUI winTotalScoreText;
+    public TextMeshProUGUI endTotalScoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -63,16 +72,22 @@ public class GameControllerScript : MonoBehaviour
 
     public void FruitRainEndScreen()
     {
+        totalScore = -20f;
         endScreen.SetActive(true);
         StopGameFunctions();
         caughtFruitText.text = "Caught Fruit: " + fruitCaughtTrackerScript.fruitCaught;
+        endLostFruitText.text = "Lost Fruit: " + floorHitbox.fruitLost;
+        endTotalScoreText.text = "Total Score: " + totalScore;
     }
 
     public void FruitRainWinScreen()
     {
+        TotalScoreCalculator();
         StopGameFunctions();
         winScreen.SetActive(true);
         winningCaughtFruitText.text = "Caught Fruit: " + fruitCaughtTrackerScript.fruitCaught;
+        winningLostFruitText.text = "Lost Fruit: " + floorHitbox.fruitLost;
+        winTotalScoreText.text = "Total Score: " + totalScore;
     }
 
     public void StopGameFunctions()
@@ -84,9 +99,19 @@ public class GameControllerScript : MonoBehaviour
 
         timerScript.timerOn = false;
 
-        fruitCaughtTrackerScript.fruitCaughtGameEnd = false;
+        fruitCaughtTrackerScript.fruitCaughtGameEnd = true;
+
+        timerSoundScript.audioSource.Stop();
 
 
 
     }
+
+    public void TotalScoreCalculator()
+    {
+        totalScore = (fruitCaughtTrackerScript.fruitCaught * 2f) - (floorHitbox.fruitLost * 5f);
+    
+    
+    }
+
 }

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class TimerScript : MonoBehaviour
 {
+    public FruitSpawner spawner;
+
+    public bool firstPhase = true;
+    public bool secondPhase = true;
+    public bool thirdPhase = true;
 
     public TextMeshProUGUI timerText; //setting the textmeshprougui variable
     [SerializeField] TextMeshProUGUI timerTextEnd; //setting the textmeshprougui variable
@@ -15,7 +20,11 @@ public class TimerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeLeft = 30f;
+        timeLeft = 21f;
+        firstPhase = true;
+        secondPhase = true;
+        thirdPhase = true;
+
     }
 
     // Update is called once per frame
@@ -50,7 +59,26 @@ public class TimerScript : MonoBehaviour
             
             }
         }
+        //progressive spawn rate
+        if (timeLeft <= 15 && firstPhase == true)
+        {
+            spawner.secondsBetweenSpawn -= 0.2f;
+            firstPhase = false;
+            Debug.Log("Spawn rate should be increased");
+        }
 
+        if (timeLeft <= 10 && secondPhase == true)
+        {
+            spawner.secondsBetweenSpawn -= 0.2f;
+            secondPhase = false;
+            Debug.Log("Spawn rate should be increased");
+        }
+        if (timeLeft <= 5 && thirdPhase == true)
+        {
+            spawner.secondsBetweenSpawn -= 0.2f;
+            thirdPhase = false;
+            Debug.Log("Spawn rate should be increased");
+        }
 
     }
 

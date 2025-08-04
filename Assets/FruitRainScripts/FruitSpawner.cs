@@ -7,12 +7,12 @@ public class FruitSpawner : MonoBehaviour
 
     [SerializeField] GameObject[] fruitPrefab;
     Coroutine fruitSpawnerCoroutine;
-    [SerializeField] float secondsBetweenSpawn = 1.2f, minSpawnArea, maxSpawnArea;//setting the variables for seconds between fruit spawning and the area range.
+    public float secondsBetweenSpawn = 1.2f, minSpawnArea, maxSpawnArea;//setting the variables for seconds between fruit spawning and the area range.
     // Start is called before the first frame update
     void Start()
     {
         fruitSpawnerCoroutine = StartCoroutine(FruitSpawn());
-        
+        secondsBetweenSpawn = 1.2f;
     }
 
     public IEnumerator FruitSpawn()
