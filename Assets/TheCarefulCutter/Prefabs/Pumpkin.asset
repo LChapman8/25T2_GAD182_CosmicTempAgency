@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f26dcd9f72a5e74499344b7ff2b860bc, type: 3}
+  m_Name: Pumpkin
+  m_EditorClassIdentifier: 
+  vegetableName: Pumpkin
+  wholePrefab: {fileID: 1468063482942684810, guid: 55a3fb8d33517f640919267735145b9c,
+    type: 3}
+  cutPrefab: {fileID: 4321208418790044298, guid: 1bf22441f19a83546b1f4d56e34882cc,
+    type: 3}
+  cutsRequired: 30
+  scoreValue: 60

@@ -8,4 +8,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/TheCarefulCutter.unity
+    guid: 4b1140b14dc1f054a9317afc921e6c8d
+  - enabled: 1
+    path: Assets/Scenes/TheStrongMan.unity
+    guid: bf80346c18291c545a1cdb248c64aa77
+  - enabled: 1
+    path: Assets/Scenes/PotionBottler.unity
+    guid: 9df5e33c06e43bc4eb7d7edf9dbe63fd
+  - enabled: 1
+    path: Assets/Scenes/AstralBarista.unity
+    guid: f3490ef3a7fc85f4d837c7f01397fc86
+  - enabled: 1
+    path: Assets/Scenes/FruitRain.unity
+    guid: 9a373bc44f27fc740bcb4001e248fe10
+  - enabled: 1
+    path: Assets/Scenes/APestProblem.unity
+    guid: 2d1897ba15cdcad49a6e8fde51beb11a
   m_configObjects: {}
