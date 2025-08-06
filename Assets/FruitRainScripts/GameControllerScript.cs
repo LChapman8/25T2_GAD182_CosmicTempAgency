@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameControllerScript : MonoBehaviour
 {
 
+    public ScoreManager scoreManager;
+
     public FruitCaughtTracker fruitCaughtTrackerScript;
     public GameObject fruitTrackerObject;
 
@@ -26,7 +28,7 @@ public class GameControllerScript : MonoBehaviour
     public GameObject winScreen;
     public GameObject endScreen;
 
-    public TextMeshProUGUI endTimeText;
+
     public TextMeshProUGUI caughtFruitText;
     public TextMeshProUGUI winningCaughtFruitText;
     public TextMeshProUGUI winningLostFruitText;
@@ -36,6 +38,11 @@ public class GameControllerScript : MonoBehaviour
 
     public TextMeshProUGUI winTotalScoreText;
     public TextMeshProUGUI endTotalScoreText;
+
+    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI finalGradeText;
+    public TextMeshProUGUI endFinalScoreText;
+    public TextMeshProUGUI endFinalGradeText;
 
     // Start is called before the first frame update
     void Start()
@@ -72,12 +79,15 @@ public class GameControllerScript : MonoBehaviour
 
     public void FruitRainEndScreen()
     {
-        totalScore = -20f;
+        totalScore = 0f;
         endScreen.SetActive(true);
         StopGameFunctions();
         caughtFruitText.text = "Caught Fruit: " + fruitCaughtTrackerScript.fruitCaught;
         endLostFruitText.text = "Lost Fruit: " + floorHitbox.fruitLost;
         endTotalScoreText.text = "Total Score: " + totalScore;
+        endFinalScoreText.text = "Final Score : 0 " ;
+        endFinalGradeText.text = "Final Grade : F " ;
+
     }
 
     public void FruitRainWinScreen()
@@ -88,6 +98,7 @@ public class GameControllerScript : MonoBehaviour
         winningCaughtFruitText.text = "Caught Fruit: " + fruitCaughtTrackerScript.fruitCaught;
         winningLostFruitText.text = "Lost Fruit: " + floorHitbox.fruitLost;
         winTotalScoreText.text = "Total Score: " + totalScore;
+
     }
 
     public void StopGameFunctions()
@@ -109,9 +120,25 @@ public class GameControllerScript : MonoBehaviour
 
     public void TotalScoreCalculator()
     {
-        totalScore = (fruitCaughtTrackerScript.fruitCaught * 2f) - (floorHitbox.fruitLost * 5f);
-    
-    
+        totalScore = (fruitCaughtTrackerScript.fruitCaught * 2.5f) - (floorHitbox.fruitLost * 5f);
+
+        scoreManager.AddScore((int)totalScore);
+
+        for (int i = 0; i < floorHitbox.fruitLost; i++)
+        {
+            scoreManager.RegisterMistake();
+        }
+
+        scoreManager.GetFinalGrade();
+
+        var result = scoreManager.EndGame();
+
+        finalScoreText.text = "Final Score : " + result.finalScore;
+        finalGradeText.text = "Final Grade : " + result.finalGrade;
+        
+
+
+
     }
 
 }
