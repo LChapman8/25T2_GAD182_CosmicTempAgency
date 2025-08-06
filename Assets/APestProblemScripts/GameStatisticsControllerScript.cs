@@ -4,10 +4,12 @@ using UnityEngine;
 using TMPro;
 public class GameStatisticsControllerScript : MonoBehaviour
 {
+    public ScoreManager scoreManager;
     public GameOverScreenScript gameOverScreenScript;
     public TimerScript timerScript;
 
     public int pestsRemoved;
+    public int pestsAlive = 5;
     public float timeLeft;
     public float totalScore;
 
@@ -21,6 +23,8 @@ public class GameStatisticsControllerScript : MonoBehaviour
     public TextMeshProUGUI totalScoreText;
     public TextMeshProUGUI timeLeftText;
     public TextMeshProUGUI pestsRemovedText;
+    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI finalGradeText;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +45,7 @@ public class GameStatisticsControllerScript : MonoBehaviour
 
         }
 
-        if (timeLeft >= 0.1 && pestsRemoved == 4 && gameEnded == false)
+        if (timeLeft >= 0.1 && pestsRemoved == 5 && gameEnded == false)
         {
             timerScript.TurnTimerOff();
             FinalScores();
@@ -55,13 +59,34 @@ public class GameStatisticsControllerScript : MonoBehaviour
     { 
         roundedTimeLeft = Mathf.RoundToInt(timeLeft);
 
-        totalScore = (pestsRemoved * 3) + timeLeft;
+        totalScore = (pestsRemoved * 8) + timeLeft ;
 
         roundedTotalScore = Mathf.RoundToInt(totalScore);
 
         pestsRemovedText.text = "Pests Removed : " + pestsRemoved;
         timeLeftText.text = "Time Left : " + roundedTimeLeft;
         totalScoreText.text = "Total Score : " + roundedTotalScore;
+
+
+        //Notify ben's score controller of mistakes and score
+        scoreManager.AddScore((int)totalScore);
+
+        Debug.Log((int)totalScore);
+
+        for (int i = 0; i < pestsAlive; i++)
+        {
+            scoreManager.RegisterMistake();
+        }
+
+        scoreManager.GetFinalGrade();
+
+        var result = scoreManager.EndGame();
+
+        finalScoreText.text = "Final Score : " + result.finalScore;
+        finalGradeText.text = "Final Grade : " + result.finalGrade;
+
+
+
 
     }
 }

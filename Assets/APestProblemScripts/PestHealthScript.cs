@@ -24,7 +24,7 @@ public class PestHealthScript : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            if (!dead)
+            if (!dead && gameStatisticsControllerScript.gameEnded == false)
             {
                 pest2AnimationScript.PlayDeathPest2Animation();
                 dead = true;
@@ -33,6 +33,7 @@ public class PestHealthScript : MonoBehaviour
                 pestSoundScript.PlayDeathSound();
 
                 gameStatisticsControllerScript.pestsRemoved += 1;
+                gameStatisticsControllerScript.pestsAlive -= 1;
             }
         }
 
@@ -41,7 +42,7 @@ public class PestHealthScript : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!dead)
+        if (!dead && gameStatisticsControllerScript.gameEnded == false)
         {
 
             currentHealth -= damage;

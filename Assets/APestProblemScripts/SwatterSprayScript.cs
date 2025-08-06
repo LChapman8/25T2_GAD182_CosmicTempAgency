@@ -14,6 +14,8 @@ public class SwatterSprayScript : MonoBehaviour
     public Transform sprayHitBoxLocation;
     public Transform sprayExitLocation;
 
+    public GameStatisticsControllerScript gameStatisticsControllerScript;
+
     public float nextSprayTime = 0f;
     public float sprayCooldown = 0.4f;
 
@@ -44,22 +46,25 @@ public class SwatterSprayScript : MonoBehaviour
 
     public void SprayHitboxSpawn()
     {
-        //instantiate spray hitbox
-        
-        var currentSprayHitbox = Instantiate(sprayHitBox, sprayHitBoxLocation.position, Quaternion.identity);
-        Destroy(currentSprayHitbox, 0.2f);
+        if (gameStatisticsControllerScript.gameEnded == false)
+        {
+            //instantiate spray hitbox
 
-        //play spray sound effect
-        spraySoundScript.PlaySpraySound();
+            var currentSprayHitbox = Instantiate(sprayHitBox, sprayHitBoxLocation.position, Quaternion.identity);
+            Destroy(currentSprayHitbox, 0.2f);
 
-        //instantiate particle effect
+            //play spray sound effect
+            spraySoundScript.PlaySpraySound();
 
-        var currentSprayEffect = Instantiate(sprayEffect, sprayExitLocation.position, sprayExitLocation.rotation);
-        Destroy(currentSprayEffect, 1f);
+            //instantiate particle effect
 
-        //play spray animation
+            var currentSprayEffect = Instantiate(sprayEffect, sprayExitLocation.position, sprayExitLocation.rotation);
+            Destroy(currentSprayEffect, 1f);
 
-        sprayAnimationScript.PlaySprayHeadAnimation();
+            //play spray animation
+
+            sprayAnimationScript.PlaySprayHeadAnimation();
+        }
     }
 
 }
