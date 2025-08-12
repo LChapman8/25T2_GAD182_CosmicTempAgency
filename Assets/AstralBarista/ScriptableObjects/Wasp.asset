@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0204f138db0715d43b43f426280d7bd4, type: 3}
   m_Name: Wasp
   m_EditorClassIdentifier: 
-  type: 0
+  type: 6
   symbol: T
   dragIcon: {fileID: 21300000, guid: 94801bc0279423d41a992c0ad321051c, type: 3}
   draggablePrefab: {fileID: 1733553553969921955, guid: bedf3dfce3f79ca4eb019c37ab6aeb52,

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0204f138db0715d43b43f426280d7bd4, type: 3}
   m_Name: Ichor
   m_EditorClassIdentifier: 
-  type: 0
+  type: 3
   symbol: '?'
   dragIcon: {fileID: 21300000, guid: c3222693bceb6d141b708c965630475e, type: 3}
   draggablePrefab: {fileID: 3485334065619422423, guid: 4cc152ffa5b0ca84084dd8f72cb3cd09,

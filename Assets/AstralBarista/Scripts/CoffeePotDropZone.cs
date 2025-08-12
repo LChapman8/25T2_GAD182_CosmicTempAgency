@@ -4,61 +4,75 @@ using UnityEngine;
 
 public class CoffeePotDropZone : MonoBehaviour, IScoreTrigger
 {
-    [Header("Debug / Placeholder")]
-    [Tooltip("If true, all drops are treated as correct until an OrderManager is wired up.")]
-    public bool treatAllDropsAsCorrect = true;
+    [Header("Legacy/Debug")]
+    public bool treatAllDropsAsCorrect = false; // now off; we use OrderManager instead
 
-    [Tooltip("Optional: simple sfx or particle on success/fail.")]
+    [Header("SFX")]
     public AudioSource sfxSource;
     public AudioClip successSfx;
     public AudioClip failSfx;
 
+    // --- Called by world draggable path ---
     public void ReceiveIngredient(DraggableIngredient ingredient, IngredientData data)
     {
-        bool isCorrect = treatAllDropsAsCorrect;
+        HandleDrop(data);
+        Destroy(ingredient.gameObject);
+    }
 
-        // In the next phase, replace this with: isCorrect = OrderManager.Instance.Accepts(data.type);
+    // --- Called by the UI-ghost path ---
+    public void ReceiveIngredient(IngredientData data)
+    {
+        HandleDrop(data);
+    }
+
+    private void HandleDrop(IngredientData data)
+    {
+        bool isCorrect;
+
+        if (treatAllDropsAsCorrect)
+        {
+            isCorrect = true;
+        }
+        else if (OrderManager.Instance == null || data == null)
+        {
+            Debug.LogWarning("[Pot] Missing OrderManager or data; treating as wrong.");
+            isCorrect = false;
+        }
+        else
+        {
+            isCorrect = OrderManager.Instance.Accepts(data);
+        }
+
+        // Debug visibility
+        string need = OrderManager.Instance ? OrderManager.Instance.CurrentDebug : "<no order>";
+        string got = data ? $"'{data.symbol}' ({data.type})" : "<null>";
+        Debug.Log($"[Pot] Drop: need {need} | got {got} => {(isCorrect ? "CORRECT" : "WRONG")}");
+
         if (isCorrect)
         {
-            TriggerScore(data != null ? data.points : 10);
+            int pts = data != null ? data.points : 10;
+            TriggerScore(pts);
+            OrderManager.Instance?.OnCorrectDrop(pts);
+            if (sfxSource) sfxSource.PlayOneShot(successSfx);
         }
         else
         {
             TriggerMistake();
+            OrderManager.Instance?.OnWrongDrop();
+            if (sfxSource) sfxSource.PlayOneShot(failSfx);
         }
-
-        if (sfxSource != null)
-            sfxSource.PlayOneShot(isCorrect ? successSfx : failSfx);
-
-        // Visual swallow / disappear
-        Destroy(ingredient.gameObject);
     }
 
-    public void ReceiveIngredient(IngredientData data)
-    {
-        bool isCorrect = treatAllDropsAsCorrect; // replace with your OrderManager check
-        if (isCorrect) TriggerScore(data != null ? data.points : 10);
-        else TriggerMistake();
-
-        if (sfxSource != null)
-            sfxSource.PlayOneShot(isCorrect ? successSfx : failSfx);
-    }
-
-    // --- IScoreTrigger (hooks into your Score system) ---
-    public void TriggerScore()
-    {
-        TriggerScore(10);
-    }
+    // --- IScoreTrigger hooks ---
+    public void TriggerScore() => TriggerScore(10);
 
     public void TriggerMistake()
     {
-        // ScoreManager.Instance.RegisterMistake();  // ready to wire
         ScoreManager.Instance.RegisterMistake();
     }
 
     public void TriggerScore(int points)
     {
-        // ScoreManager.Instance.AddScore(points);    // ready to wire
         ScoreManager.Instance.AddScore(points);
     }
 }

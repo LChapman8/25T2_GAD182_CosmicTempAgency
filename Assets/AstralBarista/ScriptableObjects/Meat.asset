@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0204f138db0715d43b43f426280d7bd4, type: 3}
   m_Name: Meat
   m_EditorClassIdentifier: 
-  type: 0
+  type: 4
   symbol: E
   dragIcon: {fileID: 21300000, guid: 44d1275bd9dd1be4cb603798aa960628, type: 3}
   draggablePrefab: {fileID: 3305300503515455833, guid: c57c69b53c9c7c54b8a9e9e45bdd3cd8,

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0204f138db0715d43b43f426280d7bd4, type: 3}
   m_Name: Grub
   m_EditorClassIdentifier: 
-  type: 0
+  type: 2
   symbol: M
   dragIcon: {fileID: 21300000, guid: 0993f0ed472226144855ee15497c2367, type: 3}
   draggablePrefab: {fileID: -9164491518785778763, guid: 5f4b8b6a29db1ab4ead2419a008aa5df,
