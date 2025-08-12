@@ -46,3 +46,9 @@ TagManager:
   - name: Aliens
     uniqueID: 3092760431
     locked: 0
+  - name: Coffee Pot
+    uniqueID: 2684051517
+    locked: 0
+  - name: Ingredients
+    uniqueID: 2558301697
+    locked: 0

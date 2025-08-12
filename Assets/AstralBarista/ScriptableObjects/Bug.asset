@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0204f138db0715d43b43f426280d7bd4, type: 3}
+  m_Name: Bug
+  m_EditorClassIdentifier: 
+  type: 0
+  symbol: Y
+  dragIcon: {fileID: 21300000, guid: 4fa0bdc89fd3fdc4dad5d53761c62103, type: 3}
+  draggablePrefab: {fileID: -6270350374545110709, guid: 1526c0fd95b7dbd488534496933000f9,
+    type: 3}
+  points: 10
