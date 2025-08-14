@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;  // <-- Add this
+using UnityEngine.SceneManagement;  
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -67,12 +67,12 @@ public class MainMenuUI : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        // Stop all sounds
+      
         AudioManagerStrongman.Instance.StopMusic();
-        // Optional: If you want to stop all SFX immediately, you might want to stop sfxSource too
+        
         AudioManagerStrongman.Instance.sfxSource.Stop();
 
-        // Load the scene named "MainMenu"
+       
         SceneManager.LoadScene("MainMenu");
 
         Cursor.visible = false;
