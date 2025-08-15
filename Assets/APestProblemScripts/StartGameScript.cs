@@ -10,6 +10,8 @@ public class StartGameScript : MonoBehaviour
     void Start()
     {
         Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     // Update is called once per frame
