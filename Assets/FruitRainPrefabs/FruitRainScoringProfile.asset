@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e11f89ac930e944aa5203b0006e770, type: 3}
+  m_Name: FruitRainScoringProfile
+  m_EditorClassIdentifier: 
+  gradeThresholds:
+  - grade: A+
+    minScore: 55
+    maxMistakes: 0
+    multiplier: 1.5
+  - grade: A
+    minScore: 45
+    maxMistakes: 1
+    multiplier: 1.3
+  - grade: B
+    minScore: 30
+    maxMistakes: 2
+    multiplier: 1.2
+  - grade: C
+    minScore: 15
+    maxMistakes: 4
+    multiplier: 1
+  - grade: F
+    minScore: 0
+    maxMistakes: 5
+    multiplier: 0
