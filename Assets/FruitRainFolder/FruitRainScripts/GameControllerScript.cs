@@ -15,7 +15,7 @@ public class GameControllerScript : MonoBehaviour
     public GameObject fruitSpawnerObject;
 
 
-    public TimerScript timerScript;
+    public FruitTimerScript fruitTimerScript;
     public GameObject timerObject;
     public TimerSoundScript timerSoundScript;
 
@@ -49,7 +49,7 @@ public class GameControllerScript : MonoBehaviour
     {
         fruitCaughtTrackerScript = fruitTrackerObject.GetComponent<FruitCaughtTracker>();
         fruitSpawnerScript = fruitSpawnerObject.GetComponent<FruitSpawner>();
-        timerScript = timerObject.GetComponent<TimerScript>();
+        fruitTimerScript = timerObject.GetComponent<FruitTimerScript>();
         soundByteScript = soundByteObject.GetComponent<SoundByteScript>();
         floorHitbox = floorHitboxObject.GetComponent<FloorHitbox>();
     }
@@ -57,7 +57,7 @@ public class GameControllerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timerScript.timeLeft <= 0)
+        if (fruitTimerScript.fruitTimeLeft <= 0)
         {
             FruitRainWinScreen();
         
@@ -108,7 +108,7 @@ public class GameControllerScript : MonoBehaviour
 
         floorHitbox.floorGameEnd = true;
 
-        timerScript.timerOn = false;
+        fruitTimerScript.fruitTimerOn = false;
 
         fruitCaughtTrackerScript.fruitCaughtGameEnd = true;
 

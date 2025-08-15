@@ -523,7 +523,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 126423098}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1686941850}
+        m_TargetAssemblyTypeName: GameFinalizeScript, Assembly-CSharp
+        m_MethodName: GameFinalization
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &126423098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3655,7 +3667,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1513716177}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1686941850}
+        m_TargetAssemblyTypeName: GameFinalizeScript, Assembly-CSharp
+        m_MethodName: GameFinalization
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1513716177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3847,11 +3871,11 @@ MonoBehaviour:
   firstPhase: 0
   secondPhase: 0
   thirdPhase: 0
-  timerText: {fileID: 1547530422}
-  timerTextEnd: {fileID: 1770312578}
-  timerTextWin: {fileID: 1043724984}
-  timeLeft: 0
-  timerOn: 1
+  fruitTimerText: {fileID: 1547530422}
+  fruitTimerTextEnd: {fileID: 1770312578}
+  fruitTimerTextWin: {fileID: 1043724984}
+  fruitTimeLeft: 0
+  fruitTimerOn: 1
 --- !u!114 &1547530425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4324,6 +4348,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1686941848}
   - component: {fileID: 1686941847}
+  - component: {fileID: 1686941850}
+  - component: {fileID: 1686941849}
   m_Layer: 0
   m_Name: ScoreManager
   m_TagString: Untagged
@@ -4360,6 +4386,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1686941849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686941846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b64a34f0d2e568488c4348bc733b630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1686941850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686941846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d3a67d4260ddc4b944a8412f258fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1686941847}
 --- !u!1 &1727225493
 GameObject:
   m_ObjectHideFlags: 0
@@ -5216,7 +5267,7 @@ MonoBehaviour:
   fruitTrackerObject: {fileID: 676154654}
   fruitSpawnerScript: {fileID: 0}
   fruitSpawnerObject: {fileID: 491380294}
-  timerScript: {fileID: 0}
+  fruitTimerScript: {fileID: 0}
   timerObject: {fileID: 1547530420}
   timerSoundScript: {fileID: 1547530425}
   soundByteScript: {fileID: 0}

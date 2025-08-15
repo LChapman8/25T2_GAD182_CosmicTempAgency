@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TimerScript : MonoBehaviour
+public class FruitTimerScript : MonoBehaviour
 {
     public FruitSpawner spawner;
 
@@ -11,16 +11,16 @@ public class TimerScript : MonoBehaviour
     public bool secondPhase = true;
     public bool thirdPhase = true;
 
-    public TextMeshProUGUI timerText; //setting the textmeshprougui variable
-    [SerializeField] TextMeshProUGUI timerTextEnd; //setting the textmeshprougui variable
-    [SerializeField] TextMeshProUGUI timerTextWin; //setting the textmeshprougui variable
-    public float timeLeft;
-    public bool timerOn = true;
+    public TextMeshProUGUI fruitTimerText; //setting the textmeshprougui variable
+    [SerializeField] TextMeshProUGUI fruitTimerTextEnd; //setting the textmeshprougui variable
+    [SerializeField] TextMeshProUGUI fruitTimerTextWin; //setting the textmeshprougui variable
+    public float fruitTimeLeft;
+    public bool fruitTimerOn = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        timeLeft = 21f;
+        fruitTimeLeft = 21f;
         firstPhase = true;
         secondPhase = true;
         thirdPhase = true;
@@ -30,50 +30,50 @@ public class TimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timerOn)
+        if (fruitTimerOn)
         {
-            timeLeft -= Time.deltaTime;
+            fruitTimeLeft -= Time.deltaTime;
 
-            float restrainedTime = Mathf.Max(timeLeft, 0f);
+            float restrainedTime = Mathf.Max(fruitTimeLeft, 0f);
             int minutes = Mathf.FloorToInt(restrainedTime / 60); // sets a variable for the time to be calculated into minutes
             int seconds = Mathf.FloorToInt(restrainedTime % 60); // sets a variable for the time to be calculated into seconds
             string timeInMinuteFormat = string.Format("{0:00}:{1:00}", minutes, seconds); // using propper string formatting, this formats the time into minutes with seconds for the TextMeshPro UI
 
-            timerText.text = "Timer : " + timeInMinuteFormat;
+            fruitTimerText.text = "Timer : " + timeInMinuteFormat;
 
-            if (timerTextEnd != null)
+            if (fruitTimerTextEnd != null)
             {
-                timerTextEnd.text = "End Time: " + timeInMinuteFormat;
+                fruitTimerTextEnd.text = "End Time: " + timeInMinuteFormat;
             }
 
-            if (timerTextWin != null)
+            if (fruitTimerTextWin != null)
             {
-                timerTextWin.text = "Winning Time : " + timeInMinuteFormat;
+                fruitTimerTextWin.text = "Winning Time : " + timeInMinuteFormat;
 
             }
 
-            if (timeLeft <= 0f)
+            if (fruitTimeLeft <= 0f)
             {
-                timeLeft = 0f;
-                TurnTimerOff();
+                fruitTimeLeft = 0f;
+                TurnFruitTimerOff();
             
             }
         }
         //progressive spawn rate
-        if (timeLeft <= 15 && firstPhase == true)
+        if (fruitTimeLeft <= 15 && firstPhase == true)
         {
             spawner.secondsBetweenSpawn -= 0.2f;
             firstPhase = false;
             Debug.Log("Spawn rate should be increased");
         }
 
-        if (timeLeft <= 10 && secondPhase == true)
+        if (fruitTimeLeft <= 10 && secondPhase == true)
         {
             spawner.secondsBetweenSpawn -= 0.2f;
             secondPhase = false;
             Debug.Log("Spawn rate should be increased");
         }
-        if (timeLeft <= 5 && thirdPhase == true)
+        if (fruitTimeLeft <= 5 && thirdPhase == true)
         {
             spawner.secondsBetweenSpawn -= 0.2f;
             thirdPhase = false;
@@ -82,9 +82,9 @@ public class TimerScript : MonoBehaviour
 
     }
 
-    public void TurnTimerOff()
+    public void TurnFruitTimerOff()
     {
-        timerOn = false;
+        fruitTimerOn = false;
     }
 
 }

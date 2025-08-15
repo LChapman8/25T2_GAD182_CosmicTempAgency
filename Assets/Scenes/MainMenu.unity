@@ -10199,7 +10199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f507f031ebfb41c43b2e55df34e89fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: FruitRain
+  sceneToLoad: FruitRainScene
   promptText: {fileID: 1313437474}
 --- !u!65 &912072137
 BoxCollider:
@@ -15698,7 +15698,11 @@ MonoBehaviour:
   - "The Strongman: \nall scripting\nsourced 3D assets\ngame design\nsound effects\nscene
     design\n"
   - "Main menu - \nsourced assets\nlevel design\nscritping\nscene design\ncredits\nexit
-    game\n\n\nBens contributions - \n\n\nSias contributions - \n\n"
+    game\n\n\nBens contributions - \n\n\nSias Contributions - \n\nA Pest Problem
+    Minigame:\nScripting\nSourced Background Models\nSourced Skybox\nSourced IceCream
+    Stand and Icecream models\nDesigned and created SFX\nDesigned and created Pest
+    Models\nDesigned and created Spray Model\n\nFruit Rain Minigame:\nScripting\nCreated
+    all 2D assets\nSourced Timer Sound\nDesigned and Created SFX \n\n\n\n"
   lineSpacing: 50
   scrollSpeed: 5
   totalScrollHeight: 500
