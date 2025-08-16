@@ -30,7 +30,7 @@ public class Portal : MonoBehaviour
             playerIsNear = true;
             if (promptText != null)
             {
-                promptText.text = $"Press E to teleport to \"The Careful Cutter Job\"";
+                
                 promptText.gameObject.SetActive(true);
             }
         }
