@@ -84,12 +84,12 @@ public class UIController : MonoBehaviour
     {
         if (hasMistakeLimit)
         {
-            mistakesLeftLabel.text = "Strikes Left:";
+            mistakesLeftLabel.text = "Mistakes Left:";
             mistakesLeftValue.text = Mathf.Max(0, mistakeLimit - currentMistakes).ToString();
         }
         else
         {
-            mistakesMadeLabel.text = "Mistakes:";
+            mistakesMadeLabel.text = "Mistakes Made:";
             mistakesMadeValue.text = currentMistakes.ToString();
         }
     }

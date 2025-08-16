@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FruitCaughtTracker : MonoBehaviour
 {
+    [SerializeField] private int pointsPerCatch = 10;
+
     public SoundByteScript soundByteScript;
     public GameObject soundByteScriptObject;
     public int fruitCaught;
@@ -28,9 +30,10 @@ public class FruitCaughtTracker : MonoBehaviour
         if (collision.gameObject.CompareTag("Fruit") && fruitCaughtGameEnd == false)
         {
             fruitCaught += 1;
+            ScoreManager.Instance.AddScore(pointsPerCatch);
             soundByteScript.PointSoundClip();
             collision.gameObject.GetComponent<FruitMechanics>().DestroySelf();
-            
+
         }
     }
 }

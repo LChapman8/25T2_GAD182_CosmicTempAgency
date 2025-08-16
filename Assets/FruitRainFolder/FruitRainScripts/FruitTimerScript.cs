@@ -3,88 +3,75 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Stripped timer used ONLY to ramp FruitSpawner difficulty over time.
+/// UI and end-of-round are handled elsewhere (UIController/ScoreManager).
+/// </summary>
 public class FruitTimerScript : MonoBehaviour
 {
+    [Header("Spawner to ramp")]
     public FruitSpawner spawner;
 
-    public bool firstPhase = true;
-    public bool secondPhase = true;
-    public bool thirdPhase = true;
+    [Header("Timing")]
+    [SerializeField] private float durationSeconds = 21f; // default;
+    [SerializeField] private bool isRunning = false;
+    private float timeLeft;
 
-    public TextMeshProUGUI fruitTimerText; //setting the textmeshprougui variable
-    [SerializeField] TextMeshProUGUI fruitTimerTextEnd; //setting the textmeshprougui variable
-    [SerializeField] TextMeshProUGUI fruitTimerTextWin; //setting the textmeshprougui variable
-    public float fruitTimeLeft;
-    public bool fruitTimerOn = true;
+    // Phase gates so each ramp applies once
+    private bool phase15Applied = false;
+    private bool phase10Applied = false;
+    private bool phase05Applied = false;
 
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Start the internal countdown used for ramp thresholds.
+    /// </summary>
+    public void Begin(float totalSeconds)
     {
-        fruitTimeLeft = 21f;
-        firstPhase = true;
-        secondPhase = true;
-        thirdPhase = true;
+        durationSeconds = totalSeconds;
+        timeLeft = durationSeconds;
+        isRunning = true;
 
+        phase15Applied = phase10Applied = phase05Applied = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>Stops the internal countdown (no UI side-effects).</summary>
+    public void Stop()
     {
-        if (fruitTimerOn)
-        {
-            fruitTimeLeft -= Time.deltaTime;
-
-            float restrainedTime = Mathf.Max(fruitTimeLeft, 0f);
-            int minutes = Mathf.FloorToInt(restrainedTime / 60); // sets a variable for the time to be calculated into minutes
-            int seconds = Mathf.FloorToInt(restrainedTime % 60); // sets a variable for the time to be calculated into seconds
-            string timeInMinuteFormat = string.Format("{0:00}:{1:00}", minutes, seconds); // using propper string formatting, this formats the time into minutes with seconds for the TextMeshPro UI
-
-            fruitTimerText.text = "Timer : " + timeInMinuteFormat;
-
-            if (fruitTimerTextEnd != null)
-            {
-                fruitTimerTextEnd.text = "End Time: " + timeInMinuteFormat;
-            }
-
-            if (fruitTimerTextWin != null)
-            {
-                fruitTimerTextWin.text = "Winning Time : " + timeInMinuteFormat;
-
-            }
-
-            if (fruitTimeLeft <= 0f)
-            {
-                fruitTimeLeft = 0f;
-                TurnFruitTimerOff();
-            
-            }
-        }
-        //progressive spawn rate
-        if (fruitTimeLeft <= 15 && firstPhase == true)
-        {
-            spawner.secondsBetweenSpawn -= 0.2f;
-            firstPhase = false;
-            Debug.Log("Spawn rate should be increased");
-        }
-
-        if (fruitTimeLeft <= 10 && secondPhase == true)
-        {
-            spawner.secondsBetweenSpawn -= 0.2f;
-            secondPhase = false;
-            Debug.Log("Spawn rate should be increased");
-        }
-        if (fruitTimeLeft <= 5 && thirdPhase == true)
-        {
-            spawner.secondsBetweenSpawn -= 0.2f;
-            thirdPhase = false;
-            Debug.Log("Spawn rate should be increased");
-        }
-
+        isRunning = false;
     }
 
-    public void TurnFruitTimerOff()
-    {
-        fruitTimerOn = false;
-    }
+    // Backwards-compatible alias if something still calls TurnFruitTimerOff()
+    public void TurnFruitTimerOff() => Stop();
 
+    private void Update()
+    {
+        if (!isRunning) return;
+
+        timeLeft -= Time.deltaTime;
+        if (timeLeft <= 0f)
+        {
+            timeLeft = 0f;
+            isRunning = false;
+            return;
+        }
+
+        // Progressive spawn rate (applied once at the thresholds)
+        if (timeLeft <= 15f && !phase15Applied)
+        {
+            spawner.secondsBetweenSpawn = Mathf.Max(0.05f, spawner.secondsBetweenSpawn - 0.2f);
+            phase15Applied = true;
+        }
+
+        if (timeLeft <= 10f && !phase10Applied)
+        {
+            spawner.secondsBetweenSpawn = Mathf.Max(0.05f, spawner.secondsBetweenSpawn - 0.2f);
+            phase10Applied = true;
+        }
+
+        if (timeLeft <= 5f && !phase05Applied)
+        {
+            spawner.secondsBetweenSpawn = Mathf.Max(0.05f, spawner.secondsBetweenSpawn - 0.2f);
+            phase05Applied = true;
+        }
+    }
 }

@@ -8,37 +8,33 @@ public class FruitSpawner : MonoBehaviour
     [SerializeField] GameObject[] fruitPrefab;
     Coroutine fruitSpawnerCoroutine;
     public float secondsBetweenSpawn = 1.2f, minSpawnArea, maxSpawnArea;//setting the variables for seconds between fruit spawning and the area range.
-    // Start is called before the first frame update
-    void Start()
+
+    public void StartSpawning()
     {
-        fruitSpawnerCoroutine = StartCoroutine(FruitSpawn());
-        secondsBetweenSpawn = 1.2f;
+        if (fruitSpawnerCoroutine == null)
+            fruitSpawnerCoroutine = StartCoroutine(FruitSpawn());
     }
 
     public IEnumerator FruitSpawn()
     {
-        while (true)//an infinite loop unless broken
+        while (true)
         {
-            var range = Random.Range(minSpawnArea, maxSpawnArea);//chooses a random number between 2 variables
-            var position = new Vector2(range, transform.position.y);//selects a position using the random variable and the y axis of the object the script is attached to.
-            GameObject gameObject = Instantiate(fruitPrefab[Random.Range(0, fruitPrefab.Length)], position, Quaternion.identity);//Instantiate a fruit from the list at the randomly created position.
-            yield return new WaitForSeconds(secondsBetweenSpawn);//wait for the secondsBetweenSpawn variable before restarting the loop
-            Destroy(gameObject, 5f);//destroys the t object after 5 seconds.
-            
-        
+            // Wait first so nothing spawns during the start screen (respects Time.timeScale)
+            yield return new WaitForSeconds(secondsBetweenSpawn);
+
+            float range = Random.Range(minSpawnArea, maxSpawnArea);
+            Vector2 position = new(range, transform.position.y);
+            GameObject go = Instantiate(fruitPrefab[Random.Range(0, fruitPrefab.Length)], position, Quaternion.identity);
+            Destroy(go, 5f); // use scaled time
         }
-    
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void StopSpawningFruit()
-    { 
-    
-        StopCoroutine(fruitSpawnerCoroutine);
-    
+    {
+        if (fruitSpawnerCoroutine != null)
+        {
+            StopCoroutine(fruitSpawnerCoroutine);
+            fruitSpawnerCoroutine = null;
+        }
     }
 }

@@ -52,7 +52,6 @@ public class GameStatisticsControllerScript : MonoBehaviour
         gameEnded = true;
         timerScript.TurnTimerOff();
 
-        // Register one mistake per surviving pest
         if (failOnRemainingPests)
         {
             for (int i = 0; i < pestsAlive; i++)
