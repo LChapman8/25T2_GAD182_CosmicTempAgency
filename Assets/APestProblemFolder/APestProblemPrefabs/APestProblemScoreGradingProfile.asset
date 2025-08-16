@@ -36,4 +36,4 @@ MonoBehaviour:
   - grade: F
     minScore: 0
     maxMistakes: 5
-    multiplier: 1
+    multiplier: 0

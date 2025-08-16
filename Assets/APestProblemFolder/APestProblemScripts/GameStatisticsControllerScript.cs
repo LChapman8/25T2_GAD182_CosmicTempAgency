@@ -4,89 +4,62 @@ using UnityEngine;
 using TMPro;
 public class GameStatisticsControllerScript : MonoBehaviour
 {
-    public ScoreManager scoreManager;
-    public GameOverScreenScript gameOverScreenScript;
     public TimerScript timerScript;
+    public UIController uiController;
+    public ScoreManager scoreManager;
 
-    public int pestsRemoved;
+    public int pestsRemoved = 0;
     public int pestsAlive = 5;
+
     public float timeLeft;
-    public float totalScore;
-
-    public float roundedTotalScore;
-    public float roundedTimeLeft;
-
     public bool gameEnded = false;
 
-    //endscreen texts
+    [Header("Scoring Settings")]
+    public int pointsPerPest = 10;
+    public bool failOnRemainingPests = true;
 
-    public TextMeshProUGUI totalScoreText;
-    public TextMeshProUGUI timeLeftText;
-    public TextMeshProUGUI pestsRemovedText;
-    public TextMeshProUGUI finalScoreText;
-    public TextMeshProUGUI finalGradeText;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (timeLeft <= 0 && gameEnded == false)
+        // Time runs out
+        if (timeLeft <= 0 && !gameEnded)
         {
-            timerScript.TurnTimerOff();
-            FinalScores();
-            gameOverScreenScript.ActivateEndScreen();
-            gameEnded = true;
-            Debug.Log("Game end due to timeout");
-
+            EndGame();
+            Debug.Log("Game ended: time out");
         }
 
-        if (timeLeft >= 0.1 && pestsRemoved == 5 && gameEnded == false)
+        // Player wins
+        if (timeLeft >= 0.1f && pestsRemoved == 5 && !gameEnded)
         {
-            timerScript.TurnTimerOff();
-            FinalScores();
-            gameOverScreenScript.ActivateEndScreen();
-            gameEnded = true;
-            Debug.Log("Game end due to pest removal");
+            EndGame();
+            Debug.Log("Game ended: all pests removed");
         }
     }
 
-    public void FinalScores()
-    { 
-        roundedTimeLeft = Mathf.RoundToInt(timeLeft);
+    public void RegisterPestRemoved()
+    {
+        if (gameEnded) return;
 
-        totalScore = (pestsRemoved * 8) + timeLeft ;
+        pestsRemoved++;
+        pestsAlive = Mathf.Max(0, pestsAlive - 1);
 
-        roundedTotalScore = Mathf.RoundToInt(totalScore);
+        scoreManager.AddScore(pointsPerPest);
+        ScoreManager.Instance.OnMistakeMade?.Invoke(pestsRemoved);
+    }
 
-        pestsRemovedText.text = "Pests Removed : " + pestsRemoved;
-        timeLeftText.text = "Time Left : " + roundedTimeLeft;
-        totalScoreText.text = "Total Score : " + roundedTotalScore;
+    public void EndGame()
+    {
+        if (gameEnded) return;
+        gameEnded = true;
+        timerScript.TurnTimerOff();
 
-
-        //Notify ben's score controller of mistakes and score
-        scoreManager.AddScore((int)totalScore);
-
-        Debug.Log((int)totalScore);
-
-        for (int i = 0; i < pestsAlive; i++)
+        // Register one mistake per surviving pest
+        if (failOnRemainingPests)
         {
-            scoreManager.RegisterMistake();
+            for (int i = 0; i < pestsAlive; i++)
+                ScoreManager.Instance.RegisterMistake();
         }
 
-        scoreManager.GetFinalGrade();
-
-        var result = scoreManager.EndGame();
-
-        finalScoreText.text = "Final Score : " + result.finalScore;
-        finalGradeText.text = "Final Grade : " + result.finalGrade;
-
-
-
-
+        ScoreManager.Instance.FinaliseGame();
+        uiController.EndGameUI();
     }
 }

@@ -32,8 +32,7 @@ public class PestHealthScript : MonoBehaviour
                 //pest death sound.
                 pestSoundScript.PlayDeathSound();
 
-                gameStatisticsControllerScript.pestsRemoved += 1;
-                gameStatisticsControllerScript.pestsAlive -= 1;
+                gameStatisticsControllerScript.RegisterPestRemoved();
             }
         }
 
