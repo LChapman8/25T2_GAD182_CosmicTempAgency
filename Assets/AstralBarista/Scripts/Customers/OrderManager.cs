@@ -79,11 +79,6 @@ public class OrderManager : MonoBehaviour
 
     }
 
-    void Start()
-    {
-        SpawnNewOrder();
-    }
-
     private float ComputeOrderTimeSeconds()
     {
         if (!scaleOrderTimeOverRound) return orderTimeAtStart;
@@ -115,8 +110,10 @@ public class OrderManager : MonoBehaviour
         ordersEnabled = true;
         _stoppedOnce = false;
 
-        // If nothing is active, kick off a fresh order
-        if (!HasActiveOrder && _orderTimerCo == null && !_resolving)
+        _resolving = false;
+        CancelOrderTimer();        // cleanup any leftover timer
+
+        if (!HasActiveOrder)
             SpawnNewOrder();
     }
 

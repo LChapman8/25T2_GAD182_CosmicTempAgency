@@ -11,41 +11,57 @@ public class BaristaMinigameManager : MonoBehaviour
     [SerializeField] private bool limitMistakes = false;
     [SerializeField] private int maxMistakes = 3;
 
-    // NEW: parent CanvasGroup that contains ALL 8 buttons (e.g., a parent of Left/Right columns)
-    [Header("Input Lock")]
+    [Header("Input Lock (parent CanvasGroup for all 8 buttons)")]
     [SerializeField] private CanvasGroup ingredientButtonsGroup;
 
-    private bool _roundEnded;
+    [Header("Optional: Root object that contains all gameplay UI/objects (not the background)")]
+    [SerializeField] private GameObject gameplayRoot;
+
+    private bool _roundRunning;
     private Coroutine _roundCo;
 
     void Awake()
     {
+        // Ensure mouse works in menus
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }
 
     void Start()
     {
+        // --- Scene loads into MENU state ---
+        // Stop any eager OrderManager that might auto-spawn in Start
+        OrderManager.Instance?.StopOrders();
+
+        // Hide/lock gameplay until Play is pressed
+        if (gameplayRoot) gameplayRoot.SetActive(false);
+        SetIngredientButtonsInteractable(false);
+        IngredientButtonUI.SetGlobalInputEnabled(false);
+    }
+
+    // Called by MenuUIController when Play is clicked
+    public void BeginRound()
+    {
+        if (_roundRunning) return;
+        _roundRunning = true;
+
+        if (gameplayRoot) gameplayRoot.SetActive(true);
+
+        // Reset and init UI/timer
         ScoreManager.Instance.currentMinigame = MinigameID.Barista;
         ScoreManager.Instance.ResetScore();
         ui.InitUI(roundSeconds, limitMistakes, maxMistakes);
 
-        // ensure buttons are enabled at start
+        // Unlock player input on buttons
         SetIngredientButtonsInteractable(true);
         IngredientButtonUI.SetGlobalInputEnabled(true);
 
-        _roundCo = StartCoroutine(RunRoundClock());
-    }
+        // Start orders
+        OrderManager.Instance?.StartOrders();
 
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.F1)) // Press F1 to force end game
-        {
-            Debug.Log("[DEBUG] Forcing game end via F1 key.");
-            EndRound();
-        }
-#endif
+        // Start end-of-round clock
+        if (_roundCo != null) StopCoroutine(_roundCo);
+        _roundCo = StartCoroutine(RunRoundClock());
     }
 
     private System.Collections.IEnumerator RunRoundClock()
@@ -54,18 +70,16 @@ public class BaristaMinigameManager : MonoBehaviour
         EndRound();
     }
 
+    // Call when the round ends
     public void EndRound()
     {
-        if (_roundEnded) return;
-        _roundEnded = true;
+        if (!_roundRunning) return;
+        _roundRunning = false;
 
-        // 1) Stop customers immediately (cancels timers, clears current alien)
         OrderManager.Instance?.StopOrders();
 
-        // 2) Disable ingredient input
         SetIngredientButtonsInteractable(false);
         IngredientButtonUI.SetGlobalInputEnabled(false);
-
     }
 
     private void SetIngredientButtonsInteractable(bool on)
