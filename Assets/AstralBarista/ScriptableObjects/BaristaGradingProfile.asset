@@ -14,6 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradeThresholds:
   - grade: A
-    minScore: 0
-    maxMistakes: 100
+    minScore: 90
+    maxMistakes: 0
+    multiplier: 2
+  - grade: B
+    minScore: 70
+    maxMistakes: 3
+    multiplier: 1.5
+  - grade: C
+    minScore: 50
+    maxMistakes: 5
     multiplier: 1
+  - grade: D
+    minScore: 30
+    maxMistakes: 8
+    multiplier: 0.5
+  - grade: F
+    minScore: 0
+    maxMistakes: 10
+    multiplier: 0
