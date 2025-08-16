@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class DraggableIngredient : MonoBehaviour
+public class DraggableIngredient : MonoBehaviour, IActiveDrag
 {
     [Header("Tuning")]
     [SerializeField] private float zDepth = 0f;
@@ -15,6 +15,8 @@ public class DraggableIngredient : MonoBehaviour
     private Camera worldCam;
     private bool isDragging;
     private bool hasDropped;
+    private bool _consumed;
+
 
     private Rigidbody2D rb;
     private Collider2D col;
@@ -28,6 +30,17 @@ public class DraggableIngredient : MonoBehaviour
         data = ingredientData;
         worldCam = cam;
         BeginDrag();
+        DragRegistry.Register(this);
+    }
+
+    private void OnDestroy()
+    {
+        DragRegistry.Unregister(this);
+    }
+
+    public void CancelDragSilent()
+    {
+        Destroy(gameObject);
     }
 
     private void Awake()
@@ -88,13 +101,24 @@ public class DraggableIngredient : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (_consumed) return;
+
         var pot = other.GetComponent<CoffeePotDropZone>();
-        if (pot != null) currentDropZone = pot;
+        if (pot == null) return;
+
+        _consumed = true;
+
+        // Hand off to pot; it will score/flash
+        pot.ReceiveIngredient(this, data);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         var pot = other.GetComponent<CoffeePotDropZone>();
-        if (pot != null && currentDropZone == pot) currentDropZone = null;
+        if (pot != null && currentDropZone == pot)
+        {
+            pot.GetComponent<CoffeePotHighlight>()?.SetHighlight(false);
+            currentDropZone = null;
+        }
     }
 }

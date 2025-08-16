@@ -12,6 +12,13 @@ public class CoffeePotDropZone : MonoBehaviour, IScoreTrigger
     public AudioClip successSfx;
     public AudioClip failSfx;
 
+    [SerializeField] private CoffeePotHighlight highlight;
+
+    private void Awake()
+    {
+        if (!highlight) highlight = GetComponent<CoffeePotHighlight>();
+    }
+
     // --- Called by world draggable path ---
     public void ReceiveIngredient(DraggableIngredient ingredient, IngredientData data)
     {
@@ -61,6 +68,8 @@ public class CoffeePotDropZone : MonoBehaviour, IScoreTrigger
             OrderManager.Instance?.OnWrongDrop();
             if (sfxSource) sfxSource.PlayOneShot(failSfx);
         }
+
+        highlight?.KickFlash();
     }
 
     // --- IScoreTrigger hooks ---

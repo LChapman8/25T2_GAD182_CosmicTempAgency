@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    [Header("Navigation")]
+    public GameObject returnToMenuButton;
+
     [Header("Timer UI")]
     public TextMeshProUGUI timeText;
 
@@ -34,6 +38,17 @@ public class UIController : MonoBehaviour
     private int mistakeLimit = 0;
     private float remainingTime;
     private bool isGameActive = false;
+
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (isGameActive && Input.GetKeyDown(KeyCode.F1)) // Press F1 to force end game
+        {
+            Debug.Log("[DEBUG] Forcing game end via F1 key.");
+            EndGameUI();
+        }
+#endif
+    }
 
     public void InitUI(float minigameTime, bool limitMistakes, int maxMistakes)
     {
@@ -133,11 +148,18 @@ public class UIController : MonoBehaviour
         {
             lostStamp.SetActive(true);
         }
+
+        returnToMenuButton.SetActive(true);
     }
 
     private void OnDisable()
     {
         ScoreManager.Instance.OnScoreChanged -= UpdateScoreDisplay;
         ScoreManager.Instance.OnMistakeMade -= UpdateMistakeDisplay;
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
