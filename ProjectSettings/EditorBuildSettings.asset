@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/APestProblem.unity
     guid: 2d1897ba15cdcad49a6e8fde51beb11a
+  - enabled: 1
+    path: Assets/Scenes/FruitRainScene.unity
+    guid: bdb53b965f027424da978c24ac0dd753
   m_configObjects: {}

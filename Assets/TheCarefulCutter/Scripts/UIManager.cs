@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
         Cursor.visible = false;
 
         
-        SceneManager.LoadScene("MainMenu"); // Replace with your actual menu scene name
+        SceneManager.LoadScene("MainMenu"); 
     }
 
 }
