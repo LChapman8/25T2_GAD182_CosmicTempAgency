@@ -27,7 +27,6 @@ public class TimerSoundScript : MonoBehaviour
         audioSource.clip = timerSoundClip;
         audioSource.Play();
 
-
     }
 
 

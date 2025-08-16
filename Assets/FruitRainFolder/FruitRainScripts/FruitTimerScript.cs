@@ -15,6 +15,16 @@ public class FruitTimerScript : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float durationSeconds = 21f; // default;
     [SerializeField] private bool isRunning = false;
+
+    [SerializeField]
+    private AnimationCurve spawnIntervalCurve =
+    new AnimationCurve(
+        new Keyframe(0.00f, 1.20f),  // start
+        new Keyframe(0.29f, 1.00f),  // ~15s left on 21s round
+        new Keyframe(0.52f, 0.80f),  // ~10s left
+        new Keyframe(0.76f, 0.60f),  // ~5s left
+        new Keyframe(1.00f, 0.60f)); // hold at end
+
     private float timeLeft;
 
     // Phase gates so each ramp applies once
@@ -48,6 +58,8 @@ public class FruitTimerScript : MonoBehaviour
         if (!isRunning) return;
 
         timeLeft -= Time.deltaTime;
+        float t = Mathf.Clamp01(1f - (timeLeft / durationSeconds));
+        spawner.secondsBetweenSpawn = spawnIntervalCurve.Evaluate(t);
         if (timeLeft <= 0f)
         {
             timeLeft = 0f;

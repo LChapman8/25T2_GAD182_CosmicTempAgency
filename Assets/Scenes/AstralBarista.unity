@@ -5498,8 +5498,8 @@ MonoBehaviour:
   nextOrderDelay: 0.75
   roundLengthSeconds: 60
   scaleOrderTimeOverRound: 1
-  orderTimeAtStart: 5
-  orderTimeAtEnd: 2
+  orderTimeAtStart: 4
+  orderTimeAtEnd: 1.5
   flashPulseSeconds: 0.12
   happyPulses: 2
   angryPulses: 1

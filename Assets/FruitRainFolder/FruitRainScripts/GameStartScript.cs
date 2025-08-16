@@ -26,9 +26,9 @@ public class GameStartScript : MonoBehaviour
 
     public void StartButton()
     {
+        timerSoundScript.PlayTimerSoundClip();
         StartPanel.SetActive(false);
         Time.timeScale = 1f;
-        timerSoundScript.PlayTimerSoundClip();
 
         ScoreManager.Instance.ResetScore();
         uiController.InitUI(minigameTime, true, missLimit);

@@ -15805,15 +15805,29 @@ MonoBehaviour:
   - "Thanks for playing Cosmic Temp Agency! \n\nthese mini games were created by
     Liam, Ben and Sia"
   - "Liams Contributions - \n\nThe Careful Cutter : \nall scripting\ncreated 2D assets
-    \ngame design \nsound effects \nscene design\n\n"
+    \ngame design \nsound effects \nscene design\n"
   - "The Strongman: \nall scripting\nsourced 3D assets\ngame design\nsound effects\nscene
     design\n"
   - "Main menu - \nsourced assets\nlevel design\nscritping\nscene design\ncredits\nexit
-    game\n\n\nBens contributions - \n\n\nSias Contributions - \n\nA Pest Problem
-    Minigame:\nScripting\nSourced Background Models\nSourced Skybox\nSourced IceCream
-    Stand and Icecream models\nDesigned and created SFX\nDesigned and created Pest
-    Models\nDesigned and created Spray Model\n\nFruit Rain Minigame:\nScripting\nCreated
-    all 2D assets\nSourced Timer Sound\nDesigned and Created SFX \n\n\n\n"
+    game\n"
+  - "Sias Contributions - \n\nA Pest Problem Minigame:\nScripting\nSourced Background
+    Models\nSourced Skybox\nSourced IceCream Stand and Icecream models\nDesigned
+    and created SFX\nDesigned and created Pest Models\nDesigned and created Spray
+    Model \n"
+  - "Fruit Rain Minigame:\nScripting\nCreated all 2D assets\nSourced Timer Sound\nDesigned
+    and Created SFX \n"
+  - "Ben's Contributions - \n\nAstral Barista:\nAll Scripting\nSourced 2D Assets\nSourced
+    UI Assets\nSourced SFX\nSourced Music\nGame Design\nScene Design\n"
+  - 'All/Multiple Minigames:
+
+    Shared Scoring System Scripting
+
+    Score Tracking
+    Scripting
+
+    Shared UI Scripting
+
+    Sourced Shared UI Elements'
   lineSpacing: 50
   scrollSpeed: 5
   totalScrollHeight: 500
