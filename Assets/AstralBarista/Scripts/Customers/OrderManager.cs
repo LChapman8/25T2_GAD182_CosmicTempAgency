@@ -40,6 +40,14 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private int angryPulses = 1;
     [SerializeField] private float leaveFadeSeconds = 0.22f;
 
+    [Header("Audio (Customer Reactions)")]
+    [SerializeField] private List<AudioClip> happyClips = new();
+    [SerializeField] private List<AudioClip> angryClips = new();
+    [Range(0f, 1f)][SerializeField] private float sfxVolume = 0.9f;
+    [SerializeField] private Vector2 pitchRange = new Vector2(0.95f, 1.05f);
+    [SerializeField] private float sfxCooldown = 0.05f;
+    [SerializeField] private AudioSource sfxBus;
+
     private CustomerVisuals _currentVisuals;
     private bool _resolving;
     private float _roundStartTime = -1f;
@@ -47,6 +55,8 @@ public class OrderManager : MonoBehaviour
     private GameObject _currentAlien;
     private OrderBubbleUI _currentBubble;
     private IngredientData _currentIngredient;                        // the required ingredient for this order
+    private AudioSource _voice;
+    private float _lastSfxTime;
 
     public IngredientType CurrentIngredientType => _currentIngredient ? _currentIngredient.type : default;
     public bool HasActiveOrder => _currentIngredient != null;
@@ -55,6 +65,18 @@ public class OrderManager : MonoBehaviour
     {
         if (Instance && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+
+        if (!sfxBus)
+        {
+            var go = new GameObject("OrderSFX");
+            go.transform.SetParent(transform, false);
+            sfxBus = go.AddComponent<AudioSource>();
+            sfxBus.playOnAwake = false;
+            sfxBus.spatialBlend = 0f;   // 2D
+            sfxBus.loop = false;
+            sfxBus.dopplerLevel = 0f;
+        }
+
     }
 
     void Start()
@@ -186,6 +208,8 @@ public class OrderManager : MonoBehaviour
         _resolving = true;
         CancelOrderTimer();
 
+        PlayHappySfx();
+
         Debug.Log($"[Order] Correct. (+{points})");
         StartCoroutine(Co_HappyThenNext());
     }
@@ -195,6 +219,8 @@ public class OrderManager : MonoBehaviour
         if (!ordersEnabled || _resolving) return;
         _resolving = true;
         CancelOrderTimer();
+
+        PlayAngrySfx();
 
         Debug.Log("[Order] Wrong. (+1 mistake) Customer leaving.");
         StartCoroutine(Co_AngryThenReplace());
@@ -237,6 +263,8 @@ public class OrderManager : MonoBehaviour
         Debug.Log($"[Order] Timed out after {seconds:0.00}s. (+1 mistake)");
         ScoreManager.Instance.RegisterMistake();
 
+        PlayAngrySfx();
+
         if (_currentVisuals) yield return _currentVisuals.Flash(Color.red, angryPulses, flashPulseSeconds);
         if (_currentVisuals && leaveFadeSeconds > 0f) yield return _currentVisuals.FadeOut(leaveFadeSeconds);
 
@@ -273,6 +301,20 @@ public class OrderManager : MonoBehaviour
         _currentIngredient = null;
         _currentVisuals = null;
     }
+
+    private void PlayRandom(List<AudioClip> clips)
+    {
+        if (sfxBus == null || clips == null || clips.Count == 0) return;
+        if (Time.unscaledTime - _lastSfxTime < sfxCooldown) return;
+
+        _lastSfxTime = Time.unscaledTime;
+        sfxBus.pitch = Random.Range(pitchRange.x, pitchRange.y);  // subtle variation
+        var clip = clips[Random.Range(0, clips.Count)];
+        sfxBus.PlayOneShot(clip, sfxVolume); // plays to completion even if alien is destroyed
+    }
+
+    private void PlayHappySfx() => PlayRandom(happyClips);
+    private void PlayAngrySfx() => PlayRandom(angryClips);
 
     public string CurrentDebug => _currentIngredient
     ? $"'{_currentIngredient.symbol}' ({_currentIngredient.type})"
